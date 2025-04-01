@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Educație Financiară</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px #aaa;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h2>Quiz Educație Financiară</h2>
+        <p id="question"></p>
+        <div id="options"></div>
+        <button onclick="nextQuestion()">Următoarea întrebare</button>
+        <p id="score"></p>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "Ce reprezintă un buget?", options: ["Un plan de cheltuieli și venituri", "Un card bancar", "Un tip de împrumut"], answer: "Un plan de cheltuieli și venituri" },
+            { question: "Ce este dobânda?", options: ["O taxă pentru economii", "Un câștig sau cost al împrumutului", "Un cont bancar special"], answer: "Un câștig sau cost al împrumutului" },
+            { question: "Ce este investiția?", options: ["Depunerea banilor la bancă", "Utilizarea banilor pentru a genera venituri", "Cheltuirea banilor pe produse de lux"], answer: "Utilizarea banilor pentru a genera venituri" }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        
+        function loadQuestion() {
+            document.getElementById("score").innerText = `Scor: ${score}/${quizData.length}`;
+            document.getElementById("question").innerText = quizData[currentQuestion].question;
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+            quizData[currentQuestion].options.forEach(option => {
+                const btn = document.createElement("button");
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(option);
+                optionsDiv.appendChild(btn);
+            });
+        }
+        
+        function checkAnswer(answer) {
+            if (answer === quizData[currentQuestion].answer) {
+                score++;
+            }
+            nextQuestion();
+        }
+        
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quiz-container").innerHTML = `<h2>Quiz completat!</h2><p>Scor final: ${score}/${quizData.length}</p>`;
+            }
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
